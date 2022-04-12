@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>検索結果</title>
+<link href="/css/add.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+   <h1>検索結果</h1>
+    <div>
+        <a th:href="@{/user/list}">一覧に戻る</a>
+    </div>
+	<div th:if="${name != null || userid !=null || phone!=null}">
+	<table>
+        <thead>
+            <tr>
+            	<th>ID</th>
+                <th>社員番号</th>
+                <th>氏名</th>
+                <th>Eメール</th>
+                <th>電話番号</th>
+                <th>入社日</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${name}" th:object="${user}" class="align-middle">　
+
+ 				<td class="center" th:text="*{id}"></td>
+                <td class="center" th:text="*{userid}"></td>
+                <td th:text="*{name}"></td>
+                <td th:text="*{address}"></td>
+                <td class="center" th:text="*{phone}"></td>
+                <td th:text="${#dates.format(user.day, 'yyyy/MM/dd')}"></td>
+                <td> <a th:href="@{/user/{id}(id=*{id})}" class="btn btn-secondary"> <input type="submit" value="編集" class="btn"></a></td>
+			  <td><a th:href="@{/user/{id}/delete(id=*{id})}" class="btn btn-secondary"> <input type="submit" value="削除" class="btn"></a></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    <h1 th:if="${user== null&& userid== null&& phone== null}">对不起，您要查找的用户不存在！</h1>
+
+
+</body>
+</html>

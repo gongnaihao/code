@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>ユーザー新規登録</title>
+<link href="/css/add.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+<style>
+.invalid-feedback{
+	color:red;
+}
+</style>
+</head>
+<body>
+    <h1>ユーザー新規登録</h1>
+    <form th:action="@{/user/create}" th:object="${userRequest}" method="post">
+        <table>
+			 <tr>
+                <th class="cell_title">社員番号</th>
+                <th class="cell_required">※</th>
+                <td><input type="text" th:field="*{userid}"  th:errorclass="is-invalid"/>
+            	<div class="invalid-feedback" th:errors="*{userid}"></div>
+			</tr>
+            <tr>
+                <th class="cell_title">名前</th>
+                <th class="cell_required">※</th>
+				<td><input type="text" th:field="*{name}" th:errorclass="is-invalid"/>
+ 				<div class="invalid-feedback" th:errors="*{name}"   ></div>
+            <tr>
+                <th class="cell_title">住所</th>
+                <th class="cell_required"></th>
+                <td><input type="text" th:field="*{address}"></td>
+            </tr>
+            <tr>
+                <th class="cell_title">電話番号</th>
+                <th class="cell_required"></th>
+                <td><input type="text" th:field="*{phone}" th:errorclass="is-invalid"/>
+ 				<div class="invalid-feedback" th:errors="*{phone}"   ></div>
+            </tr>
+             <tr>
+                   <th class="cell_title">パスワード</th>
+                <th class="cell_required"></th>
+                <td><input type="text" th:field="*{password}"></td>
+            </tr>
+            <tr>
+                <th class="cell_title">入社年月日</th>
+                <th class="cell_required"></th>
+                	<td><input type="text" th:field="*{day}" th:errorclass="is-invalid"/>
+ 				<div class="invalid-feedback" th:errors="*{day}"  ></div>
+            </tr>
+            <tr>
+        </table>
+        <div class="btn_area_center" style="margin-left:850px">
+            <input type="submit" value="登録" class="btn" style="background-color: #33CCCC;">
+        </div>
+    </form>
+</body>
+</html>
