@@ -129,17 +129,24 @@ public class UserController {
 //		model.addAttribute("name", uid);
 
 
-
+//
     	List<User> userlist = new ArrayList<>();
-    	 if (user.getName() != null && !user.getName().equals("")) {
-            userlist.addAll( userService.withUsernameQuery(user.getName()));
-         }
-    	 if (user.getUserid() != null && !user.getUserid().equals("")) {
-             userlist.addAll( userService.withUseridQuery(user.getUserid()));
-          }
-    	 if (user.getPhone() != null && !user.getPhone().equals("")) {
-             userlist.addAll( userService.withPhoneQuery(user.getPhone()));
-          }
+//    	 if (user.getName() != null && !user.getName().equals("")) {
+//            userlist.addAll( userService.withUsernameQuery(user.getName()));
+//
+//         }
+//    	 if (user.getUserid() != null && !user.getUserid().equals("")) {
+//             userlist.addAll( userService.withUseridQuery(user.getUserid()));
+//          }
+//    	 if (user.getPhone() != null && !user.getPhone().equals("")) {
+//             userlist.addAll( userService.withPhoneQuery(user.getPhone()));
+//          }
+//    	 for(int i=0;i<=userlist.size();i++) {
+//    		 if (!userlist.get(i).equals(userlist.get(0))  ) {
+//    			 userlist.remove(i);
+//    		 }
+//    	 }
+    	  userlist.addAll( userService.withAllQuery(user.getName(),  user.getUserid(),user.getPhone()));
     	 model.addAttribute("name", userlist);
 
 		return "user/result";

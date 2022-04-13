@@ -12,8 +12,9 @@
     <div>
         <a th:href="@{/user/list}">一覧に戻る</a>
     </div>
-	<div th:if="${name != null || userid !=null || phone!=null}">
-	<table>
+
+	<div th:if="${name.size >0}">
+	   <table>
         <thead>
             <tr>
             	<th>ID</th>
@@ -25,7 +26,9 @@
 
             </tr>
         </thead>
+
         <tbody>
+
             <tr th:each="user : ${name}" th:object="${user}" class="align-middle">　
 
  				<td class="center" th:text="*{id}"></td>
@@ -34,13 +37,14 @@
                 <td th:text="*{address}"></td>
                 <td class="center" th:text="*{phone}"></td>
                 <td th:text="${#dates.format(user.day, 'yyyy/MM/dd')}"></td>
-                <td> <a th:href="@{/user/{id}(id=*{id})}" class="btn btn-secondary"> <input type="submit" value="編集" class="btn"></a></td>
-			  <td><a th:href="@{/user/{id}/delete(id=*{id})}" class="btn btn-secondary"> <input type="submit" value="削除" class="btn"></a></td>
-            </tr>
+                 <td> <div style="text-align:center"><a th:href="@{/user/{id}(id=*{id})}" class="btn btn-secondary">
+                 <input type="submit" value="編集" class="btn" style="background-color:#33CCCC"></a></div></td>
+			  <td><div style="text-align:center"><a th:href="@{/user/{id}/delete(id=*{id})}" class="btn btn-secondary">
+			  <input type="submit" value="削除" class="btn"style="background-color:red"></a></div></td>
         </tbody>
     </table>
-    </div>
-    <h1 th:if="${user== null&& userid== null&& phone== null}">对不起，您要查找的用户不存在！</h1>
+      </div>
+    <h1 th:if="${name.size <= 0}">すみません、検索したいユーザーがいない！</h1>
 
 
 </body>

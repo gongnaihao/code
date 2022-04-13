@@ -15,7 +15,7 @@
     <div>氏名：<input type="text" th:field="*{name}" placeholder="氏名より検索"/><br/>
  	社員番号：<input type="text" th:field="*{userid}"  placeholder="社員番号より検索"/><br/>
     電話番号：<input type="text" th:field="*{phone}"  placeholder="電話番号より検索"/>
-	<input type="submit" value="検索" /></div>
+	<input type="submit" value="検索" style="width:100px;background-color: #33CCCC" /></div>
 	</form>
 
 
@@ -42,10 +42,9 @@
                 <td class="center" th:text="*{phone}"></td>
                 <td th:text="${#dates.format(user.day, 'yyyy/MM/dd')}"></td>
                 <td> <div style="text-align:center"><a th:href="@{/user/{id}(id=*{id})}" class="btn btn-secondary">
-
-                 <input type="submit" value="編集" class="btn" ></a></div></td>
+                 <input type="submit" value="編集" class="btn" style="background-color:#33CCCC"></a></div></td>
 			  <td><div style="text-align:center"><a th:href="@{/user/{id}/delete(id=*{id})}" class="btn btn-secondary">
-			  <input type="submit" value="削除" class="btn"></a></div></td>
+			  <input type="submit" value="削除" class="btn"style="background-color:red"></a></div></td>
             </tr>
         </tbody>
     </table>

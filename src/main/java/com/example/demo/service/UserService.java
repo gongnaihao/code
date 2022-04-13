@@ -93,4 +93,8 @@ public class UserService {
 	public List<User> withPhoneQuery(String phone){
 		return userRepository.withPhoneQuery(phone);
 	}
+	public List<User> withAllQuery(String name,String userid,String phone){
+		return userRepository.findA(name,userid,phone);
+	}
+
 }
