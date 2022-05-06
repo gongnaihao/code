@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,13 @@ public class UserService {
      * ユーザー情報 全検索
      * @return 検索結果
      */
-    public List<User> searchAll() {
-        return userRepository.findAll();
+    public Page<User> searchAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
+
+    public User findById(Long id) {
+        return userRepository.findById(id).get();
+      }
 
     /**
      * ユーザー情報新規登録
@@ -54,13 +60,9 @@ public class UserService {
         user.setAddress(userRequest.getAddress());
         user.setPhone(userRequest.getPhone());
         user.setDay(userRequest.getDay());
-
-
         return user;
     }
-    public User findById(Long id) {
-        return userRepository.findById(id).get();
-      }
+
 
     public void update(UserUpdateRequest userUpdateRequest) {
         User user = findById(userUpdateRequest.getId());

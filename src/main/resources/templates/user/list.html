@@ -1,53 +1,77 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>ユーザー情報一覧</title>
 <link href="/css/list.css" rel="stylesheet"></link>
 <meta charset="utf-8" />
 </head>
 <body>
-    <h1>ユーザー情報一覧</h1>
-    <div>
-        <a th:href="@{/user/login}">新規登録はこちら</a>
-    </div>
-    <form th:action="@{/user/result}" th:object="${user}" method="post">
-    <div>氏名：<input type="text" th:field="*{name}" placeholder="氏名より検索"/><br/>
- 	社員番号：<input type="text" th:field="*{userid}"  placeholder="社員番号より検索"/><br/>
-    電話番号：<input type="text" th:field="*{phone}"  placeholder="電話番号より検索"/>
-	<input type="submit" value="検索" style="width:100px;background-color: #33CCCC" /></div>
+	<h1>ユーザー情報一覧</h1>
+	<div>
+		<a th:href="@{/user/login}">新規登録はこちら</a>
+	</div>
+	<form th:action="@{/user/result}" th:object="${user}" method="post"
+		action="">
+		<div>
+			氏名：<input type="text" th:field="*{name}" placeholder="氏名より検索" /><br />
+			社員番号：<input type="text" th:field="*{userid}" placeholder="社員番号より検索" /><br />
+			電話番号：<input type="text" th:field="*{phone}" placeholder="電話番号より検索" />
+			<input type="submit" value="検索"
+				style="width: 100px; background-color: #33CCCC" />
+		</div>
 	</form>
 
 
-    <table>
-        <thead>
-            <tr>
-            	<th>ID</th>
-                <th>社員番号</th>
-                <th>氏名</th>
-                <th>Eメール</th>
-                <th>電話番号</th>
-                <th>入社日</th>
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>社員番号</th>
+				<th>氏名</th>
+				<th>Eメール</th>
+				<th>電話番号</th>
+				<th>入社日</th>
 
-            </tr>
-        </thead>
+			</tr>
+		</thead>
 
-        <tbody>
-            <tr th:each="user : ${userlist}" th:object="${user}" class="align-middle">　
+		<tbody>
+			<tr th:each="user : ${page}" th:object="${user}" class="align-middle">
 
- 				<td class="center" th:text="*{id}"></td>
-                <td class="center" th:text="*{userid}"></td>
-                <td th:text="*{name}"></td>
-                <td th:text="*{address}"></td>
-                <td class="center" th:text="*{phone}"></td>
-                <td th:text="${#dates.format(user.day, 'yyyy/MM/dd')}"></td>
-                <td> <div style="text-align:center"><a th:href="@{/user/{id}(id=*{id})}" class="btn btn-secondary">
-                 <input type="submit" value="編集" class="btn" style="background-color:#33CCCC"></a></div></td>
-			  <td><div style="text-align:center"><a th:href="@{/user/{id}/delete(id=*{id})}" class="btn btn-secondary">
-			  <input type="submit" value="削除" class="btn"style="background-color:red"></a></div></td>
-            </tr>
-        </tbody>
-    </table>
+				<td class="center" th:text="*{id}"></td>
+				<td class="center" th:text="*{userid}"></td>
+				<td th:text="*{name}"></td>
+				<td th:text="*{address}"></td>
+				<td class="center" th:text="*{phone}"></td>
+				<td th:text="${#dates.format(user.day, 'yyyy/MM/dd')}"></td>
+				<td>
+					<div style="text-align: center">
+						<a th:href="@{/user/{id}(id=*{id})}" class="btn btn-secondary">
+							<input type="submit" value="編集" class="btn"
+							style="background-color: #33CCCC">
+						</a>
+					</div>
+				</td>
+				<td><div style="text-align: center">
+						<a th:href="@{/user/{id}/delete(id=*{id})}"
+							class="btn btn-secondary"> <input type="submit" value="削除"
+							class="btn" style="background-color: red"></a>
+					</div></td>
+			</tr>
+			<tr>
+				<th colspan="6">
+					<div class="ui mini pagination menu"
+						th:if="${page.totalPages}&gt;1">
+						<a class="item" th:href="@{/user/list(page=0)}"th:unless="${page.first}">首页</a>
+						<a class="item"th:href="@{/user/list(page=${page.number}-1)}"th:unless="${page.first}">上一页</a>
+						<a class="item"th:href="@{/user/list(page=${page.number}+1)}"th:unless="${page.last}">下一页</a>
+					</div>
+				</th>
+			</tr>
+
+		</tbody>
+	</table>
 
 </body>
 </html>

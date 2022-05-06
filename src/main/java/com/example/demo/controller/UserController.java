@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,16 +33,34 @@ public class UserController {
      */
     @Autowired
     private UserService userService;
+   // @Autowired
+   // private UserRepository userRepository;
     /**
      * ユーザー情報一覧画面を表示
      * @param model Model
      * @return ユーザー情報一覧画面
      */
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
-    public String displayList(Model model) {
-        List<User> userlist = userService.searchAll();
-        model.addAttribute("userlist", userlist);
+    public String displayList(Model model,@PageableDefault(size = 3, sort = {"id"}) Pageable pageable) {
+       Page<User> page = userService.searchAll(pageable);
+        model.addAttribute("page", page);
         model.addAttribute("user", new User());
+        /*int pageNo=1;
+        //每页显示多少条
+        int pageSize=5;*/
+        //分页排序
+//      PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize, Sort.Direction.DESC,"id");
+		//不使用排序
+     /*   PageRequest pageRequest = PageRequest.of(pageNo-1, pageSize);
+        Page<User> page= userRepository.findAll(pageRequest);
+        System.out.println("当前页码"+page.getNumber());
+        System.out.println("每页显示数量"+page.getSize());
+        System.out.println("总数量"+page.getTotalElements());
+        System.out.println("总页数"+page.getTotalPages());
+        List<User> content = page.getContent();
+        content.forEach(item->{
+            System.out.println(item);
+        });*/
         return "user/list";
     }
 
@@ -117,35 +138,9 @@ public class UserController {
 
     @RequestMapping(value = "/user/result", method = RequestMethod.POST)
 	public String showbyname(@ModelAttribute User user, Model model) {
-//    	String name = user.getName();
-//		List<User> u = userService.withUsernameQuery(name);
-//		model.addAttribute("name", u);
-//
-//		String phone = user.getName();
-//		List<User> p = userService.withPhoneQuery(phone);
-//		model.addAttribute("name", p);
-//		String userid = user.getUserid();
-//		List<User> uid = userService.withUseridQuery(userid);
-//		model.addAttribute("name", uid);
 
-
-//
     	List<User> userlist = new ArrayList<>();
-//    	 if (user.getName() != null && !user.getName().equals("")) {
-//            userlist.addAll( userService.withUsernameQuery(user.getName()));
-//
-//         }
-//    	 if (user.getUserid() != null && !user.getUserid().equals("")) {
-//             userlist.addAll( userService.withUseridQuery(user.getUserid()));
-//          }
-//    	 if (user.getPhone() != null && !user.getPhone().equals("")) {
-//             userlist.addAll( userService.withPhoneQuery(user.getPhone()));
-//          }
-//    	 for(int i=0;i<=userlist.size();i++) {
-//    		 if (!userlist.get(i).equals(userlist.get(0))  ) {
-//    			 userlist.remove(i);
-//    		 }
-//    	 }
+
     	  userlist.addAll( userService.withAllQuery(user.getName(),  user.getUserid(),user.getPhone()));
     	 model.addAttribute("name", userlist);
 
