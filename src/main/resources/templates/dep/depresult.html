@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>検索結果</title>
+<link href="/css/add.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+
+<body>
+   <h1>検索結果</h1>
+    <div>
+        <a th:href="@{/dep/deplist}">一覧に戻る</a>
+    </div>
+       <div>
+        <a th:href="@{/dep/emplogin}">社員新規登録</a>
+    </div>
+
+
+<div style="text-align:center">
+  <input type="radio" id="zenbu" name="zenbu" value="huey" style="margin-left:250px"
+          checked onclick="show1()">
+  <label for="huey">全社員</label>
+
+  <input type="radio" id="zaizhi" name="zenbu" value="zaizhi" style="margin-left:250px"
+         onclick="show2()">
+  <label for="zaizhi">在職のみ</label>
+
+  <input type="radio" id="tuizhi" name="zenbu" value="tuizhi" style="margin-left:250px"
+         onclick="show3()">
+  <label for="tuizhi">退職のみ</label>
+</div>
+
+
+
+
+
+	<h1 th:text="*{depname}"></h1>
+
+<div class="Aboxa" >
+
+	   <table >
+        <thead>
+            <tr>
+            	<th>id</th>
+                <th>氏名</th>
+                <th>担当地区</th>
+                <th>売上</th>
+                <th>保有顧客数</th>
+                <th>更新日時</th>
+            </tr>
+        </thead>
+	        <tbody >
+
+            <tr th:if="${emp.state<1}" th:each="emp : ${emplist}" th:object="${emp}"  class="align-middle">　
+
+ 				<td  class="center" th:text="*{eid}"></td>
+                <td class="center" th:text="*{emp_name}"></td>
+                <td th:text="*{address}"></td>
+                <td th:text="*{money}"></td>
+                <td class="center" th:text="*{customer}"></td>
+                <td th:text="${#dates.format(emp.updateday, 'yyyy/MM/dd')}"></td>
+                 <td> <div style="text-align:center">
+                 <a th:href="@{/emp/{eid}(eid=*{eid})}"  class="btn btn-secondary">
+                 <input type="submit" value="編集" class="btn" style="background-color:#33CCCC"></a></div></td>
+                  <td><div >
+             <form th:action="@{/dep/}+${emp.eid}" method="post" onclick="return  myFunction()">
+                      <input type="hidden" name="_method" value="delete"/>
+                      <button type="submit" class="btn btn-sm btn-danger deleteBtn"  style="background-color: red">削除</button>
+             </form></div></td>
+          </tr>
+
+
+			<tr th:if="${emp.state=1}" th:each="emp : ${tuizhi}" th:object="${dep}"  style="background-color: red">
+				<td class="center"  ></td>
+                <td class="center" ></td>
+                <td ></td>
+                <td ></td>
+                <td class="center"></td>
+                <td></td>
+
+			  <td><div style="text-align:center">
+			  <input type="submit" value="削除" th:value="*{did}" class="btn"style="background-color:red"></div></td>
+
+</tr>
+    <tr>
+				<th colspan="6">
+					<div class="ui mini pagination menu"
+						th:if="${emplist.totalPages}&gt;1">
+						<a class="item" th:href="@{/dep/{did}(did=*{did},page=0)}"th:unless="${emplist.first}">首页</a>
+						<a class="item"th:href="@{/dep/{did}(did=*{did},page=${emplist.number}-1)}"th:unless="${emplist.first}">上一页</a>
+						<a class="item"th:href="@{/dep/{did}(did=*{did},page=${emplist.number}+1)}"th:unless="${emplist.last}">下一页</a>
+					</div>
+				</th>
+			</tr>
+
+        </tbody>
+</table>
+</div>
+<div class="Aboxa" style="display:none">
+<table>
+  <thead>
+            <tr>
+            	<th>id</th>
+                <th>氏名</th>
+                <th>担当地区</th>
+                <th>売上</th>
+                <th>保有顧客数</th>
+                <th>更新日時</th>
+
+            </tr>
+        </thead>
+	        <tbody>
+            <tr th:each="emp: ${zaizhi}" th:object="${emp}" class="align-middle">　
+ 				<td class="center" th:text="*{eid}"></td>
+                <td class="center" th:text="*{emp_name}"></td>
+                <td th:text="*{address}"></td>
+                <td th:text="*{money}"></td>
+                <td class="center" th:text="*{customer}"></td>
+                <td th:text="${#dates.format(emp.updateday, 'yyyy/MM/dd')}"></td>
+                 <td> <div style="text-align:center">
+                 <a th:href="@{/emp/{eid}(eid=*{eid})}"  class="btn btn-secondary">
+                 <input type="submit" value="編集" class="btn" style="background-color:#33CCCC"></a></div></td>
+			  <td><div >
+             <form th:action="@{/dep/}+${emp.eid}" method="post" onclick="return  myFunction()">
+                      <input type="hidden" name="_method" value="delete"/>
+                      <button type="submit" class="btn btn-sm btn-danger deleteBtn"  style="background-color: red">削除</button>
+             </form></div></td>
+          </tr>
+           <tr>
+				<th colspan="6">
+					<div class="ui mini pagination menu"
+						th:if="${zaizhi.totalPages}&gt;1">
+						<a class="item" th:href="@{/dep/{did}(did=*{did},page=0)}"th:unless="${zaizhi.first}">首页</a>
+						<a class="item"th:href="@{/dep/{did}(did=*{did},page=${zaizhi.number}-1)}"th:unless="${zaizhi.first}">上一页</a>
+						<a class="item"th:href="@{/dep/{did}(did=*{did},page=${zaizhi.number}+1)}"th:unless="${zaizhi.last}">下一页</a>
+					</div>
+				</th>
+			</tr>
+        </tbody>
+</table>
+</div>
+<div class="Aboxa" style="display:none">
+<table >
+  <thead>
+            <tr>
+            	<th>id</th>
+                <th>氏名</th>
+                <th>担当地区</th>
+                <th>売上</th>
+                <th>保有顧客数</th>
+                <th>更新日時</th>
+
+            </tr>
+        </thead>
+	        <tbody>
+            <tr th:each="emp:${tuizhi}" th:object="${emp}" class="align-middle"  style="background-color: red">　
+				<td class="center" ></td>
+                <td class="center" ></td>
+                <td ></td>
+                <td ></td>
+                <td class="center"></td>
+                <td></td>
+
+			  <td><div style="text-align:center">
+			  <input type="submit" value="削除" class="btn"style="background-color:red" ></div></td>
+        </tbody>
+    </table>
+    </div>
+<script th:inline="javascript">
+function show1() {
+document.getElementsByClassName("Aboxa")[0].style.display = "block";
+document.getElementsByClassName("Aboxa")[1].style.display = "none";
+document.getElementsByClassName("Aboxa")[2].style.display = "none";
+}
+function show2() {
+document.getElementsByClassName("Aboxa")[0].style.display = "none";
+document.getElementsByClassName("Aboxa")[1].style.display = "block";
+document.getElementsByClassName("Aboxa")[2].style.display = "none";
+}
+function show3() {
+document.getElementsByClassName("Aboxa")[0].style.display = "none";
+document.getElementsByClassName("Aboxa")[1].style.display = "none";
+document.getElementsByClassName("Aboxa")[2].style.display = "block";
+}
+
+function myFunction()
+{
+	  if(confirm('この作業は修正できません。本当によろしいですか。')){
+          return true;
+      }else{
+          return false;
+      }
+}
+
+
+
+
+</script>
+
+
+
+</body>
+</html>

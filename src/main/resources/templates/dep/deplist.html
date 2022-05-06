@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>情報一覧</title>
+<link href="/css/list.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+    <h1>情報一覧</h1>
+	   <div>
+        <a th:href="@{/dep/emplogin}">社員新規登録</a>
+    </div>
+
+
+    <table>
+        <thead>
+            <tr>
+            	<th>課番号</th>
+                <th>課名</th>
+                <th>合計売上</th>
+                <th>合計人数</th>
+                <th>1人あたりの売上平均値（小数点切捨）</th>
+            </tr>
+        </thead>
+        <tbody>
+				 <tr th:each="dep : ${deplist}" th:object="${dep}" class="align-middle" >　
+
+ 				<td th:text="*{did}"></td>
+                <td th:text="*{dpt_name}"></td>
+                <td th:text="*{all_money}"></td>
+                <td th:text="*{number}"></td>
+                <td  th:text="*{all_money/number}"></td>
+                <td> <div style="text-align:center"><a th:href="@{/dep/{did}(did=*{did})}" class="btn btn-secondary">
+                <input type="submit" value="編集" class="btn" style="background-color:#33CCCC"></a></div></td>
+            </tr>
+
+
+
+            	<tr th:if="${deplist.size()<4}" th:each="dep:${clist}" th:object="${dep}"  style="background-color: red">
+				<td class="center" >0</td>
+                <td class="center">0</td>
+                <td >0</td>
+                <td >0</td>
+                <td class="center">0</td>
+</tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>

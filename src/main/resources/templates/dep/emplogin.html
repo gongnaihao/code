@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>社員新規登録</title>
+<link href="/css/add.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+</head>
+
+<body>
+   <h1>社員新規登録</h1>
+    <div>
+        <a th:href="@{/dep/deplist}">課表一覧</a>
+    </div>
+
+<form th:action="dep" th:object="${empRequest}" method="post" name="frm">
+
+
+<div >
+ 	<table  id="feeTable">
+
+         <thead>
+            <tr >
+            	<th>配属先</th>
+                <th>氏名</th>
+                <th>担当地区</th>
+                <th>売上</th>
+                <th>保有顧客数</th>
+				<th></th>
+            </tr>
+        </thead>
+ 	<tbody th:if="${list.size()<1}" id="feeBody" >
+    <tr  th:if="${list.size()<1}"  >
+            <td ><select id="bumenb" name="depid"  >
+                     <option>...</option>
+                     <option value="1">営業一課</option>
+                     <option value="2">営業二課</option>
+                     <option value="3">営業三課</option>
+                     <option value="4">営業四課</option>
+              	</select>
+          </td>
+          <td><input onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('氏名入力してください!')"
+          name="ename" type="text"  id="xingming"/></td>
+          <td><input onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('担当地区入力してください!')"
+          name="eaddress" type="text" id="dizhi" /></td>
+          <td><input onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('売上入力してください!')"
+          name="emoney" type="text"  id="qian"  /></td>
+          <td><input onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('保有顧客数入力してください!')"
+          name="ecustomer" type="text"  id="guke" /></td>
+          <td>
+          <input type="button" value="削除"  class="btn"style="background-color: #33CCCC;" onclick="del(this)"></td>
+     </tr>
+</tbody>
+
+<tbody th:if="${list.size()>0}"  id="feeBody"  >
+
+
+    <tr th:each="emp:${list}" th:object="${emp}"  class="Aboxa"   >
+            <td ><select id="bumenb" name="depid" >
+                     <option value="5">...</option>
+                     <option  value="1">営業一課</option>
+                     <option   value="2">営業二課</option>
+                     <option value="3">営業三課</option>
+                     <option  value="4">営業四課</option>
+              	</select>
+          </td>
+
+
+          <td ><input onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('氏名入力してください!')"
+
+          name="ename" type="text" th:value="*{emp_name}" /></td>
+          <td><input onblur="if(this.value.replace (/^ +| +$/g,'')=='')alert('担当地区入力してください!')"
+
+          name="eaddress" type="text"th:value="*{address}"/></td>
+          <td><input onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('売上入力してください!')"
+
+          name="emoney" type="text" th:value="*{money}"/></td>
+          <td><input onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('保有顧客数入力してください!')"
+
+          name="ecustomer" type="text"th:value="*{customer}"/></td>
+          <td>
+          <input type="button" value="削除"  class="btn"style="background-color: #33CCCC;" onclick="del(this)"></td>
+
+     </tr>
+</tbody>
+
+</table>
+
+<div class="btn_area_center" style="margin-left:750px">
+ <input onclick="frm.action='/dep/create';return myFunction();" type="submit" value="登録"  class="btn"style="background-color: #33CCCC;" >
+</div>
+ <div class="btn_area_center" style="margin-left:750px">
+ <input  onclick="frm.action='/dep/baocun'; "  type="submit" value="保存" class="btn" style="background-color: #33CCCC;">
+</div>
+</div>
+</form>
+    <div class="btn_area_center" style="margin-left:750px">
+   <input type="submit" value="行複製" id="copyRow" class="btn" style="background-color: #33CCCC;" >
+ </div>
+
+<div class="btn_area_center" style="margin-left:750px">
+   <input type="submit" value="行新規" class="btn" style="background-color: #33CCCC;" onclick="add()">
+ </div>
+
+ <div class="btn_area_center" style="margin-left:750px">
+ <input type="button" value=リセット  class="btn"style="background-color: #33CCCC;" onclick="replaceDoc()">
+ </div>
+
+
+
+  <script th:inline="javascript">
+
+
+
+    function add() {
+
+    	 let tianjia = $("table tbody tr:first").clone();
+    	 tianjia.find('input:text').val('');
+    	 tianjia.find('select').val('');
+    	    $("table tbody").append(tianjia);
+    }
+    function   del(obj)
+    {
+    	  if($('#feeTable tbody tr').length > 1) {
+        tr = obj.parentNode.parentNode;
+        tr.parentNode.deleteRow(tr.sectionRowIndex);
+    	  }
+    }
+
+    const $copyRow = document.getElementById('copyRow');
+    const $tbody = document.getElementById('feeBody');
+    $copyRow.addEventListener('click', ()=> {
+    	/*var myselect = document.getElementById("bumen");
+    	var index=myselect.selectedIndex ;
+    	var text= myselect.options[index].value;//取得选择框的值*/
+        let clone = $tbody.lastElementChild.cloneNode(true);
+        $tbody.appendChild(clone)
+         console.log(clone);
+
+        var text = info.data[info.data.length-1]
+        $("select:last").val(text);
+
+    })
+    function myFunction()
+	{
+	  if(confirm('この作業は修正できません。本当によろしいですか。')){
+
+          return true;
+
+          }
+     else{
+          return false;
+      		}
+		}
+    function replaceDoc()
+    {
+        window.location.replace("http://localhost:8080/dep/emplogin")
+        info();
+    }
+
+
+
+       function qingchu(){
+    	   localStorage.clickcount = 0;
+    	   window.location.replace("http://localhost:8080/dep/emplogin")
+       }
+
+   	var info={
+			 data:[
+				[# th:each="idlist : ${idlist}"]
+				   [[${idlist}]],
+
+				[/]
+			]
+		}
+
+
+   	$('select').each(function(i,element){
+        $(this).val(info.data[i]);
+});
+
+
+</script>
+
+
+</body>
+</html>

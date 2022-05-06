@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>ユーザー新規登録</title>
+<link href="/css/add.css" rel="stylesheet"></link>
+<meta charset="utf-8" />
+</head>
+<body>
+    <div class="container">
+      </div>
+      <h1>ユーザー情報編集</h1>
+      <form th:action="@{/dep/hensyu}" th:object="${empData}" th:method="post">
+			<table>
+				<tr>
+                <th class="cell_title">id</th>
+                <th class="cell_required">※</th>
+                <td><input type="text" th:field="*{eid}"></td>
+            </tr>
+				<tr>
+                <th class="cell_title">担当地区</th>
+                <th class="cell_required">※</th>
+                <td><input type="text" th:field="*{address}"></td>
+            </tr>
+            <tr>
+                <th class="cell_title">売上</th>
+                <th class="cell_required">※</th>
+                <td><input type="text" th:field="*{money}"></td>
+            </tr>
+			 <tr>
+                <th class="cell_title">保有顧客数</th>
+                <th class="cell_required">※</th>
+                <td><input type="text" th:field="*{customer}"></td>
+            </tr>
+
+
+        </table>
+        <div>
+            <input type="submit" value="登録" class="btn">
+        </div>
+      </form>
+  </body>
+
+</html>
